@@ -11,7 +11,7 @@ export function ResultList({ results, onRetry, onHome }: {
   useYouTubeBGM("ANVPnF3dnY4", bgmOn);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-yellow-100 to-pink-200">
+    <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#ffffff' }}>
       <div className="fixed top-2 right-2 z-50">
         <button
           className="bg-white/80 border border-yellow-300 rounded-lg px-3 py-1 shadow hover:bg-yellow-100 transition text-sm font-bold"

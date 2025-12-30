@@ -31,8 +31,8 @@ function App() {
   const [executor, setExecutor] = useState("");
   const [crosses, setCrosses] = useState<Cross[]>([]);
   const [phase, setPhase] = useState<Phase>("menu");
-  // 動画再生中と結果発表画面では基本BGMを停止
-  useYouTubeBGM(BGM_VIDEO_ID, bgmOn && phase !== "exchange" && phase !== "ready" && phase !== "result");
+  // 準備画面と結果発表画面では基本BGMを停止
+  useYouTubeBGM(BGM_VIDEO_ID, bgmOn && phase !== "ready" && phase !== "result");
   const [showIdx, setShowIdx] = useState(0);
   const [results, setResults] = useState<{ name: string; originalExecutor: string; newExecutor: string }[]>([]);
   const [shuffledExecutors, setShuffledExecutors] = useState<string[]>([]);
@@ -51,10 +51,15 @@ function App() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(crosses));
   }, [crosses]);
 
-  // 十字架交換ボタン押下
+  // 十字架交換ボタン押下（動画をスキップして直接準備画面へ）
   const handleExchange = () => {
     if (crosses.length < 2) return alert("2件以上登録してください");
-    setPhase("exchange");
+    // 執行者をシャッフル
+    setShuffledExecutors(shuffle(crosses.map(c => c.executor)));
+    setShowIdx(0);
+    setResults([]);
+    setShowedExecutor(null);
+    setPhase("ready");
   };
 
   // 動画終了後、準備画面へ
@@ -181,7 +186,7 @@ function App() {
 
   if (phase === "intro") {
     return (
-      <div className="min-h-screen flex flex-col bg-white py-6">
+      <div className="min-h-screen flex flex-col bg-white py-6" style={{ backgroundColor: '#ffffff' }}>
         <div className="fixed top-2 right-2 z-50">
           <button
             className="bg-white/80 border border-yellow-300 rounded-lg px-3 py-1 shadow hover:bg-yellow-100 transition text-sm font-bold"
@@ -191,56 +196,46 @@ function App() {
           </button>
         </div>
         <header className="text-center py-6 px-4">
-          <div className="bg-white rounded-2xl shadow-2xl p-6 mx-auto max-w-md border-4 border-yellow-300">
+          <div className="bg-white rounded-2xl shadow-2xl p-6 mx-auto max-w-md border-4 border-yellow-300" style={{ backgroundColor: '#ffffff' }}>
             <div className="inazuma-title inazuma-glow select-none text-5xl">岩倉魂</div>
           </div>
         </header>
         <main className="flex-1 flex flex-col items-center justify-center px-4 pb-12">
           <div className="w-full max-w-2xl space-y-6">
             {/* タイトルカード */}
-            <div className="bg-white rounded-3xl shadow-2xl p-8 border-4 border-pink-400">
+            <div className="bg-white rounded-3xl shadow-2xl p-8" style={{ backgroundColor: '#ffffff' }}>
               <h1 className="text-4xl font-black text-center text-pink-700">
                 ⚡️ 十字架シャッフルとは ⚡️
               </h1>
             </div>
 
             {/* 説明テキストカード */}
-            <div className="bg-white rounded-3xl shadow-2xl p-8 border-4 border-pink-300 space-y-5">
-              <div className="bg-white rounded-2xl p-5 border-4 border-pink-200 shadow-lg">
-                <p className="font-bold text-2xl leading-relaxed text-gray-800">
-                  人は皆、<span className="text-pink-600 font-black">十字架（罰ゲーム）</span>を背負っている。
-                </p>
-              </div>
+            <div className="bg-white rounded-3xl shadow-2xl p-8 space-y-5" style={{ backgroundColor: '#ffffff' }}>
+              <p className="font-bold text-2xl leading-relaxed text-gray-800 text-left">
+                人は皆、<span className="text-pink-600 font-black">十字架（罰ゲーム）</span>を背負っている。
+              </p>
 
-              <div className="bg-white rounded-2xl p-5 border-4 border-yellow-300 shadow-lg">
-                <p className="font-bold text-2xl leading-relaxed text-gray-800">
-                  そんな十字架を背負いし者のみが参加できる<span className="text-yellow-700 font-black">儀式</span>があるのだ。
-                </p>
-              </div>
+              <p className="font-bold text-2xl leading-relaxed text-gray-800 text-left">
+                そんな十字架を背負いし者のみが参加できる<span className="text-yellow-700 font-black">儀式</span>があるのだ。
+              </p>
 
-              <div className="bg-white rounded-2xl p-8 border-4 border-pink-400 shadow-xl">
-                <p className="font-black text-3xl text-center text-pink-700 leading-tight">
-                  その名は、<br />
-                  <span className="text-5xl inazuma-glow block mt-3">「十字架シャッフル」</span>
-                </p>
-              </div>
+              <p className="font-black text-3xl text-center text-pink-700 leading-tight">
+                その名は、<br />
+                <span className="text-5xl inazuma-glow block mt-3">「十字架シャッフル」</span>
+              </p>
 
-              <div className="bg-white rounded-2xl p-5 border-4 border-red-300 shadow-lg">
-                <p className="font-bold text-2xl leading-relaxed text-gray-800">
-                  自分の十字架と、他のプレイヤーの十字架を<span className="text-red-600 font-black">交換</span>する悪魔的儀式。
-                </p>
-              </div>
+              <p className="font-bold text-2xl leading-relaxed text-gray-800 text-left">
+                自分の十字架と、他のプレイヤーの十字架を<span className="text-red-600 font-black">交換</span>する悪魔的儀式。
+              </p>
 
-              <div className="bg-white rounded-2xl p-6 border-4 border-gray-400 shadow-lg">
-                <p className="font-bold text-center text-3xl text-gray-800 leading-tight">
-                  参加するもしないも<br />
-                  <span className="text-pink-600 font-black text-4xl">諸君次第</span>だ。
-                </p>
-              </div>
+              <p className="font-bold text-3xl text-left text-gray-800 leading-tight">
+                参加するもしないも<br />
+                <span className="text-pink-600 font-black text-4xl">諸君次第</span>だ。
+              </p>
             </div>
 
             {/* ボタンカード */}
-            <div className="bg-white rounded-3xl shadow-2xl p-6 border-4 border-pink-300 flex flex-col gap-4">
+            <div className="bg-white rounded-3xl shadow-2xl p-6 flex flex-col gap-4" style={{ backgroundColor: '#ffffff' }}>
               <button
                 onClick={handleStartRegister}
                 className="w-full inazuma-btn text-2xl py-6 shadow-2xl transform hover:scale-105 transition-all"
