@@ -2,7 +2,7 @@
 
 
 import { useState, useEffect } from "react";
-import { useBGM } from "./hooks/useBGM";
+import { useYouTubeBGM } from "./hooks/useYouTubeBGM";
 import { FullscreenVideo } from "./components/FullscreenVideo";
 import { ResultList } from "./components/ResultList";
 
@@ -26,16 +26,16 @@ function shuffle<T>(arr: T[]): T[] {
 
 function App() {
   const BGM_LIST = [
-    { label: "通常BGM", src: `${import.meta.env.BASE_URL}baseBGM.mp3` },
-    { label: "鼓動BGM", src: `${import.meta.env.BASE_URL}heartbeat.mp3` },
+    { label: "通常BGM", videoId: "fFgLmwpd4FM" },
   ];
   const [bgmIdx, setBgmIdx] = useState(0);
   const [bgmOn, setBgmOn] = useState(true);
-  useBGM(BGM_LIST[bgmIdx].src, bgmOn);
   const [name, setName] = useState("");
   const [executor, setExecutor] = useState("");
   const [crosses, setCrosses] = useState<Cross[]>([]);
   const [phase, setPhase] = useState<Phase>("menu");
+  // 動画再生中と結果発表画面では基本BGMを停止
+  useYouTubeBGM(BGM_LIST[bgmIdx].videoId, bgmOn && phase !== "exchange" && phase !== "result");
   const [showIdx, setShowIdx] = useState(0);
   const [results, setResults] = useState<{ name: string; originalExecutor: string; newExecutor: string }[]>([]);
   const [shuffledExecutors, setShuffledExecutors] = useState<string[]>([]);
@@ -123,20 +123,13 @@ function App() {
   if (phase === "menu") {
     return (
       <div className="min-h-screen flex flex-col bg-gradient-to-b from-yellow-100 to-pink-200">
-        <div className="fixed top-2 right-2 z-50 flex gap-2">
+        <div className="fixed top-2 right-2 z-50">
           <button
             className="bg-white/80 border border-yellow-300 rounded-lg px-3 py-1 shadow hover:bg-yellow-100 transition text-sm font-bold"
             onClick={() => setBgmOn((v) => !v)}
           >
             {bgmOn ? "BGM OFF" : "BGM ON"}
           </button>
-          <button
-            className="bg-white/80 border border-pink-300 rounded-lg px-3 py-1 shadow hover:bg-pink-100 transition text-sm font-bold"
-            onClick={() => setBgmIdx((idx) => (idx + 1) % BGM_LIST.length)}
-          >
-            BGM切り替え
-          </button>
-          <span className="text-xs text-gray-500 self-center">{BGM_LIST[bgmIdx].label}</span>
         </div>
         <header className="text-center py-12">
           <div className="inazuma-title inazuma-glow select-none text-6xl">岩倉魂</div>
@@ -203,20 +196,13 @@ function App() {
   // --- 登録画面 ---
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-yellow-100 to-pink-200">
-      <div className="fixed top-2 right-2 z-50 flex gap-2">
+      <div className="fixed top-2 right-2 z-50">
         <button
           className="bg-white/80 border border-yellow-300 rounded-lg px-3 py-1 shadow hover:bg-yellow-100 transition text-sm font-bold"
           onClick={() => setBgmOn((v) => !v)}
         >
           {bgmOn ? "BGM OFF" : "BGM ON"}
         </button>
-        <button
-          className="bg-white/80 border border-pink-300 rounded-lg px-3 py-1 shadow hover:bg-pink-100 transition text-sm font-bold"
-          onClick={() => setBgmIdx((idx) => (idx + 1) % BGM_LIST.length)}
-        >
-          BGM切り替え
-        </button>
-        <span className="text-xs text-gray-500 self-center">{BGM_LIST[bgmIdx].label}</span>
       </div>
       <header className="text-center py-6">
         <div className="inazuma-title inazuma-glow select-none">岩倉魂</div>

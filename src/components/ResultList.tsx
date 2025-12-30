@@ -1,10 +1,13 @@
-
+import { useYouTubeBGM } from "../hooks/useYouTubeBGM";
 
 export function ResultList({ results, onRetry, onHome }: {
   results: { name: string; originalExecutor: string; newExecutor: string }[];
   onRetry: () => void;
   onHome: () => void;
 }) {
+  // YouTube動画ID: ANVPnF3dnY4
+  useYouTubeBGM("ANVPnF3dnY4", true);
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-yellow-100 to-pink-200">
       <header className="text-center py-6 text-2xl font-bold tracking-widest text-pink-700 drop-shadow-md">
