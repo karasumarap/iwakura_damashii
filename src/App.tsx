@@ -25,17 +25,14 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 function App() {
-  const BGM_LIST = [
-    { label: "通常BGM", videoId: "fFgLmwpd4FM" },
-  ];
-  const [bgmIdx, setBgmIdx] = useState(0);
+  const BGM_VIDEO_ID = "fFgLmwpd4FM";
   const [bgmOn, setBgmOn] = useState(true);
   const [name, setName] = useState("");
   const [executor, setExecutor] = useState("");
   const [crosses, setCrosses] = useState<Cross[]>([]);
   const [phase, setPhase] = useState<Phase>("menu");
   // 動画再生中と結果発表画面では基本BGMを停止
-  useYouTubeBGM(BGM_LIST[bgmIdx].videoId, bgmOn && phase !== "exchange" && phase !== "result");
+  useYouTubeBGM(BGM_VIDEO_ID, bgmOn && phase !== "exchange" && phase !== "result");
   const [showIdx, setShowIdx] = useState(0);
   const [results, setResults] = useState<{ name: string; originalExecutor: string; newExecutor: string }[]>([]);
   const [shuffledExecutors, setShuffledExecutors] = useState<string[]>([]);
