@@ -144,6 +144,16 @@ function App() {
     }
   };
 
+  // 岩倉発アーティスト紹介
+  const handleArtistIntro = () => {
+    const confirmed = window.confirm("もしかして、さんとうへい -3T0HE-？");
+    if (confirmed) {
+      window.open("https://www.youtube.com/watch?v=ANVPnF3dnY4", "_blank");
+    } else {
+      window.open("https://www.youtube.com/watch?v=btTopEkZqOM", "_blank");
+    }
+  };
+
   // --- 画面分岐 ---
   if (phase === "menu") {
     return (
@@ -179,6 +189,12 @@ function App() {
           >
             🍜 町田商店公式HP 🍜
           </button>
+          <button
+            onClick={handleArtistIntro}
+            className="w-full max-w-md bg-gradient-to-r from-purple-600 via-purple-500 to-purple-600 text-white font-bold rounded-xl text-2xl py-6 shadow-2xl hover:from-purple-700 hover:via-purple-600 hover:to-purple-700 transition-all transform hover:scale-105"
+          >
+            🎤 岩倉発アーティスト紹介 🎤
+          </button>
         </main>
       </div>
     );
@@ -211,11 +227,11 @@ function App() {
 
             {/* 説明テキストカード */}
             <div className="bg-white rounded-3xl shadow-2xl p-8 space-y-5" style={{ backgroundColor: '#ffffff' }}>
-              <p className="font-bold text-2xl leading-relaxed text-gray-800 text-left">
+              <p className="font-bold text-2xl leading-relaxed text-gray-800 text-center">
                 人は皆、<span className="text-pink-600 font-black">十字架（罰ゲーム）</span>を背負っている。
               </p>
 
-              <p className="font-bold text-2xl leading-relaxed text-gray-800 text-left">
+              <p className="font-bold text-2xl leading-relaxed text-gray-800 text-center">
                 そんな十字架を背負いし者のみが参加できる<span className="text-yellow-700 font-black">儀式</span>があるのだ。
               </p>
 
@@ -224,11 +240,11 @@ function App() {
                 <span className="text-5xl inazuma-glow block mt-3">「十字架シャッフル」</span>
               </p>
 
-              <p className="font-bold text-2xl leading-relaxed text-gray-800 text-left">
+              <p className="font-bold text-2xl leading-relaxed text-gray-800 text-center">
                 自分の十字架と、他のプレイヤーの十字架を<span className="text-red-600 font-black">交換</span>する悪魔的儀式。
               </p>
 
-              <p className="font-bold text-3xl text-left text-gray-800 leading-tight">
+              <p className="font-bold text-3xl text-center text-gray-800 leading-tight">
                 参加するもしないも<br />
                 <span className="text-pink-600 font-black text-4xl">諸君次第</span>だ。
               </p>
@@ -276,11 +292,6 @@ function App() {
           </button>
         </div>
         <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 text-center">
-          <h1 className="text-4xl font-black text-pink-700 mb-6">🎯 準備完了！</h1>
-          <p className="text-xl text-gray-700 mb-8 leading-relaxed">
-            執行者のシャッフルが完了しました。<br />
-            ボタンを押して結果を確認しましょう！
-          </p>
           <button
             onClick={handleStartShow}
             className="w-full bg-gradient-to-r from-pink-500 to-pink-600 text-white font-black rounded-2xl py-6 text-2xl shadow-xl hover:from-pink-600 hover:to-pink-700 transition-all transform hover:scale-105"
