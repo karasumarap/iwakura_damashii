@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useYouTubeBGM } from "./hooks/useYouTubeBGM";
 import { FullscreenVideo } from "./components/FullscreenVideo";
 import { ResultList } from "./components/ResultList";
+import sakuBg from "./assets/saku.png";
 
 type Cross = {
   name: string;
@@ -362,7 +363,13 @@ function App() {
 
   if (phase === "ready") {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-yellow-100 to-pink-200 px-4">
+      <div 
+        className="min-h-screen flex flex-col items-center justify-center px-4"
+        style={{
+          background: `url(${sakuBg}) center center/cover no-repeat fixed`,
+          backgroundColor: '#f0f0f0'
+        }}
+      >
         <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 text-center">
           <button
             onClick={handleStartShow}
